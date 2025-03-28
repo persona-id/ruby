@@ -226,20 +226,6 @@ jobs:
       - run: make test-spec
         if: ${{ matrix.entry.check }}
 
-      - uses: k0kubun/action-slack@v2.0.0
-        with:
-          payload: |
-            {
-              "ci": "GitHub Actions",
-              "env": "${{ github.workflow }} / ${{ matrix.entry.name }}",
-              "url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
-              "commit": "${{ github.sha }}",
-              "branch": "${{ github.ref }}".split('/').reverse()[0]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SIMPLER_ALERTS_URL }} # ruby-lang slack: ruby/simpler-alerts-bot
-        if: ${{ failure() && github.event_name == 'push' }}
-
 defaults:
   run:
     working-directory: build
